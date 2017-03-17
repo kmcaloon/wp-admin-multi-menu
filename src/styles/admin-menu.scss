@@ -1,0 +1,305 @@
+/*================================================================================
+*   Styles for the admin menu
+*
+----------------------------------------------------------------------------------
+
+Table of Contents
+    
+    = Custom Admin Menu
+
+        = Top level items
+
+        = Sections with dropdowns
+        
+    
+    = Nanoscroller customizations
+
+==================================================================================*/
+@import 'vendor/nano-scroller';
+
+
+#adminmenu {
+
+    .wp-menu-separator {
+        display: none;
+    }
+
+    /*-----------------------------------------
+        = TOP LEVEL 
+    ------------------------------------------*/
+    a.menu-top {
+
+        &:focus {
+            color: white !important;
+        }
+        &:hover {
+            color: #00b9eb !important;
+        }
+        
+        /* = HEADING
+        -----------------------------*/
+        .wp-menu-name {
+            font-size: 13px;
+            opacity: 0.9;
+            padding: 12px 0;
+        }
+
+        /* = ICON
+        -----------------------------*/
+        div.wp-menu-image {
+            width: 30px;
+            height: 30px;
+
+            &:before {
+                width: 17px;
+                height: 17px;
+                font-size: 17px;
+                padding: 12px 0;
+            }
+        }
+    }
+
+    /*-----------------------------------------
+        = SECTIONS WITH DROPDOWNS
+    ------------------------------------------*/
+
+    /* = HEADINGS
+    -----------------------------*/
+    li.js-menu-section {
+        position: relative;
+        padding-left: 8px;
+    
+        &:after {
+            font-family: 'dashicons';
+            content: '\f345';
+            font-size: 11px;
+            position: absolute;
+            right: 10px;
+            top: 12px;
+            color: white;
+            opacity: 0.5;
+            transition: 0.2s;
+        }
+
+        a.menu-top {
+            background-color: transparent !important;
+        }
+
+        .wp-menu-image {
+            display: none !important;
+        }
+        .wp-menu-name {
+             background-color: transparent !important;
+        }
+    }
+    // Active heading
+    li.js-menu-section.is-collapsed {
+        background-color: #191e23;
+
+        &:after {
+            transform: rotate(90deg);
+        }
+
+        > a:not(:hover) {
+            //color: #00b9eb;
+            color: white;
+        }
+    }
+    
+
+    /* = 2ND LEVEL
+    -----------------------------*/
+    li.js-menu-section ~ .menu-top:not(.js-menu-section) {
+        transition: 0.3s;
+
+        &:after {
+            display: none !important;
+        }
+
+        /* Link */
+        a.menu-top {
+            padding-left: 10px;
+        }
+
+        /* Label */
+        .wp-menu-name {
+            padding-left: 10px;
+            font-size: 12px;
+            border-left: solid 2px rgb(70,70,70);
+            position: relative;
+
+            &:before {
+                content: '';
+                position: absolute;
+                height: 5px;
+                width: 5px;
+                border-radius: 100%;
+                background: rgb(70,70,70);
+                top: 18px;
+                left: -3.5px;
+            }
+        }
+        
+        /* Icon */
+        .wp-menu-image {
+            display: none;
+
+            &.dashicons,
+            &.dashicons-before:before {
+                width: 15px;
+                height: 15px;
+                font-size: 15px;
+            }
+        }
+
+    }
+    // Uncollapsed items
+    li.js-menu-section ~ .menu-top:not(.js-menu-section):not(.is-collapsed)  {
+        max-height: 0;
+        min-height: 0;
+        opacity: 0;
+        overflow: hidden;
+    }
+    // Collapsed items
+    li.js-menu-section ~ .menu-top:not(.js-menu-section).is-collapsed {
+        opacity: 1;
+        max-height: 3rem;
+        transition: max-height 0.3s,
+                    min-height 0.3s,
+                    opacity 0.45s 0.15s !important;
+    }
+    // Current
+    li.wp-has-current-submenu {
+
+        a.wp-has-current-submenu {
+            background-color: darken(#006799, 5%);
+            opacity: 1;
+
+            &:after {
+                display: none;
+            }
+        }
+    }
+
+    /* = 3RD LEVEL
+    -----------------------------*/
+    .wp-submenu {
+        left: 160px !important;
+        background-color: #191e23 !important;
+        position: absolute !important;
+        margin-top: 0 !important;
+        
+        /* Link */
+        a {
+            font-size: 12px;
+            color: white;
+            padding: 10px 10px 10px 20px !important;
+            position: relative;
+            transition: 0.3s !important;
+
+            &:before {
+                content: '';
+                height: 3px;
+                width: 3px;
+                display: block;
+                //border-radius: 100%;
+                border: solid 1px white;
+                position: absolute;
+                left: 8px;
+                top: 14px;
+                opacity: 0.15;
+                transition: 0.3s;
+            }
+
+            &:hover {
+                cursor: pointer;
+
+                &:before {
+                    border-color: #00a0d2 !important;
+                    opacity: 1;
+                }
+            }
+        }
+        /* Current Link */
+        a.current {
+            border-left: solid 2px #00a0d2;
+
+            &:hover {
+                cursor: default;
+            }
+        }
+    }
+    // Scrollable
+    .wp-submenu.is-scrollable {
+        overflow-y: scroll;
+    }
+    // Hidden
+    .wp-has-submenu .wp-submenu {           
+        //z-index: -9999 !important;
+        opacity: 0;
+        transform: translateX(-20px); 
+        transition: z-index 0s 0.3s,
+                    opacity 0.15s ease-in,
+                    top 0s 0.15s,
+                    transform 0.15s;
+
+        a {
+            opacity: 0;
+            transition: 0.15s 0s;
+        }
+    }
+    // Showing
+    .wp-has-submenu:hover .wp-submenu,
+    .wp-has-submenu.is-hovered,
+    .wp-has-submenu .wp-submenu:hover,
+    .wp-has-submenu .wp-submenu:active {
+        top: 0 !important;
+        opacity: 1;
+        transform: translateX(0);
+        transition: z-index 0s 0.15s,
+                    opacity 0.15s 0.15s,
+                    transform 0.15s 0.15s;
+
+        a {
+            opacity: 0.9;
+            transition: 0.15s 0.25s;
+        }
+    }
+    // Hidden when parent is current screen
+    .wp-has-current-submenu .wp-submenu {
+        left: 160px;
+        top: -9999px;
+        position: absolute;
+    }
+    // Showing when parent is current screen
+    .wp-has-current-submenu:hover .wp-submenu,
+    .wp-has-current-submenu .wp-submenu:hover {
+        top: 0;
+        opacity: 1;
+    }
+
+}
+
+/*-----------------------------------------
+    = NANO SCROLLER CUSTOMIZATIONS
+------------------------------------------*/
+.enscroll-track {
+  width: 10px;margin-right: -30px;
+  background-color: #23282d;
+  opacity: 0;
+  transition: none;
+  margin-right: -30px;
+
+  .handle {
+    background-color: #424343;
+  }
+}
+
+//  When menu is hovered
+.wp-has-submenu:hover .enscroll-track,
+.wp-has-submenu.is-hovered .enscroll-track,
+.wp-has-submenu .wp-submenu:hover .enscroll-track,
+.wp-has-submenu .wp-submenu:active .enscroll-track {
+    opacity: 1;
+    transition: 0.4s ease-in 0.2s;
+}
